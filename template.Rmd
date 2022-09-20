@@ -1,21 +1,52 @@
 ---
 title: "Simple document"
-output: html_document
+output: github_document
 ---
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(haven)
+```
 
 I'm an R Markdown document! 
 
 #data import CSV
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
-
+import data using reader package
 ```{r}
-samp = rnorm(100)
-length(samp)
+litters_df = read.csv("./data/FAS_litters.csv")
+litters_df = janitor::clean_names(litters_df)
+
+head(litters_df)
+tail(litters_df)
 ```
 
-# Section 2
+```{r, eval=FALSE}
+view(litters_df)
+skimr::skim(litters_df)
+read_csv("./data/FAS_litters.csv", na = c(".","NA"), skip = 2)
+```
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+"read_csv" functions
+
+# need to read into excel spreadsheet
+```{r}
+read_excel("./data/mlb11.xlsx")
+lr_words_df = 
+  read_excel(
+    "./data/LotR_Words.xlsx",
+    range = "B2:D6"
+  )
+```
+
+# read SAS dataset
+```{r}
+pulse_data = read_sas("./data/public_pulse_data.sas7bda")
+```
+
+#data export
+```{r}
+write_csv(lr_words_df, file = "./data/lr_words_df.csv")
+```
+
