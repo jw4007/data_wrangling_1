@@ -1,10 +1,6 @@
 Simple document
 ================
 
-``` r
-library(tidyverse)
-```
-
     ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
     ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
     ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
@@ -13,11 +9,6 @@ library(tidyverse)
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
-
-``` r
-library(readxl)
-library(haven)
-```
 
 I’m an R Markdown document!
 
@@ -120,3 +111,45 @@ pulse_data = read_sas("./data/public_pulse_data.sas7bdat")
 ``` r
 write_csv(lr_words_df, file = "./data/lr_words_df.csv")
 ```
+
+# data minipulation with dplyr
+
+``` r
+options(tibble.print_min = 3)
+
+litters_data = read_csv("./data/FAS_litters.csv",
+  col_types = "ccddiiii")
+litters_data = janitor::clean_names(litters_data)
+
+pups_data = read_csv("./data/FAS_pups.csv",
+  col_types = "ciiiii")
+pups_data = janitor::clean_names(pups_data)
+```
+
+# select function
+
+``` r
+#select the variables you want:
+select(litters_data, group, litter_number, gd0_weight, pups_born_alive)
+```
+
+    ## # A tibble: 49 × 4
+    ##   group litter_number gd0_weight pups_born_alive
+    ##   <chr> <chr>              <dbl>           <int>
+    ## 1 Con7  #85                 19.7               3
+    ## 2 Con7  #1/2/95/2           27                 8
+    ## 3 Con7  #5/5/3/83/3-3       26                 6
+    ## # … with 46 more rows
+
+``` r
+#specify a range of columns to keep
+select(litters_data,group:gd_of_birth)
+```
+
+    ## # A tibble: 49 × 5
+    ##   group litter_number gd0_weight gd18_weight gd_of_birth
+    ##   <chr> <chr>              <dbl>       <dbl>       <int>
+    ## 1 Con7  #85                 19.7        34.7          20
+    ## 2 Con7  #1/2/95/2           27          42            19
+    ## 3 Con7  #5/5/3/83/3-3       26          41.4          19
+    ## # … with 46 more rows
